@@ -1,45 +1,10 @@
 import express, { response } from 'express'
+import routes from './routes'
 
 const app = express()
 
 app.use(express.json())
+app.use(routes)
 
-// Rota: Endereço da requisição
-// Resurso: /users = Qual entidade estamos acessando do sistema
-
-// knex('users').where('name, 'teste').select('*')
-
-const users = [
-    'Diego',
-    'Cleiton',
-    'Teste'
-]
-
-app.get('/users', (request, response) => {
-    // Query Param: Parâmetros que vem na própria rota geramente opicionais
-    const search = String(request.query.search)
-    const filteredUsers = search ? users.filter(user => user.includes(search)) : users
-
-    response.json(filteredUsers)
-});
-
-app.get('/users/:id', (request, response) => {
-    // Request Param: Parâmetros que vem na própria rota que identificam um recurso
-    const id = + request.params.id
-    const user = users[id]
-
-    return response.json(user)
-});
-
-app.post('/users', (request, response) => {
-    const data = request.body
-
-    const user = {
-        name:  data.name,
-        email: data.email
-    }
-
-    return response.json(user)
-})
 
 app.listen(3333)
